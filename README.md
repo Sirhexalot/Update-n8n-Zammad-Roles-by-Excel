@@ -1,4 +1,4 @@
-# Update Zammad Roles by Excel
+# n8n Workflow: Update Zammad Roles by Excel
 
 This repository contains an n8n workflow designed to update user roles in a Zammad instance based on an Excel file. It simplifies role management by automating the process and ensuring consistency.
 
