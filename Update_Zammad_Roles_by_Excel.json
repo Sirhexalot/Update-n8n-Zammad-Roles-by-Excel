@@ -1,5 +1,5 @@
 {
-  "name": "Update Zammad Roles by Excel",
+  "name": "Update Roles by Excel",
   "nodes": [
     {
       "parameters": {},
@@ -48,19 +48,13 @@
             {
               "id": "68b32087-5e23-4590-8042-0061234ce479",
               "name": "zammad_base_url",
-              "value": "-put-your-zammad-base-url-",
-              "type": "string"
-            },
-            {
-              "id": "7db7572e-2524-4f2a-a1d6-b44330662c30",
-              "name": "zammad_api_key",
-              "value": "-put-your-api-key-",
+              "value": "https://zammad.sirhexalot.de/",
               "type": "string"
             },
             {
               "id": "240f4dc5-a070-4623-96e7-1e0750dbeba5",
               "name": "excel_source_url",
-              "value": "-put-in-the-excel-http-source-for-download",
+              "value": "http://zammad.sirhexalot.de/Users.txt",
               "type": "string"
             }
           ]
@@ -125,15 +119,8 @@
     {
       "parameters": {
         "url": "={{ $('Basic Variables').item.json.zammad_base_url }}api/v1/users/search?query=email:{{ $json.email }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $('Basic Variables').item.json.zammad_api_key }}"
-            }
-          ]
-        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "options": {}
       },
       "id": "b5962a7b-27d3-45f1-adc4-1abff5d1c990",
@@ -145,21 +132,20 @@
         -60
       ],
       "alwaysOutputData": false,
-      "executeOnce": false
+      "executeOnce": false,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GJ7tG0KxDpEUv3DS",
+          "name": "zammad.sirhexalot.de"
+        }
+      }
     },
     {
       "parameters": {
         "method": "PUT",
         "url": "={{ $('Basic Variables').item.json.zammad_base_url }}/api/v1/users/{{ $json.id }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $('Basic Variables').item.json.zammad_api_key }}"
-            }
-          ]
-        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={\n  \"role_ids\": [\n  {{ $json.role_ids }}\n  ]\n} ",
@@ -173,7 +159,28 @@
         2020,
         120
       ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GJ7tG0KxDpEUv3DS",
+          "name": "zammad.sirhexalot.de"
+        }
+      },
       "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Authentication for Zammad\n\nCreate in the Node Find Zammad User by email a Header Auth Authentication\n\nUse:\n\nName: Authorization\nValue: Bearer - put here your zammad api token - \n",
+        "height": 253.58904109589045,
+        "width": 577.5890410958907
+      },
+      "id": "7724e271-0beb-4fc3-a9dd-4e55bcf033a1",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        60,
+        -500
+      ]
     }
   ],
   "pinData": {},
@@ -259,19 +266,13 @@
           }
         ]
       ]
-    },
-    "Update User Roles": {
-      "main": [
-        [],
-        []
-      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3ded7e5c-c232-4513-97ba-15c6f39cfd19",
+  "versionId": "2e34f31f-cb00-43e1-8709-6405ea8521ac",
   "meta": {
     "templateCredsSetupCompleted": true,
     "templateId": "2041",
